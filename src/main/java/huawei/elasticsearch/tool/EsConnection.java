@@ -8,22 +8,27 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
 public class EsConnection
 {
-	private static Client client;
+	private static transient Client client;
 	
 	private EsConnection(){}
 	
-	public static synchronized Client getEsConnection(String ip)
+	@SuppressWarnings("resource")
+	public static Client getEsConnection(String ip)
 	{
-		if(client != null)
+		if(client == null)
 		{
-			return client;
+			synchronized (EsConnection.class)
+			{
+				if (client == null)
+				{
+					Settings settings = ImmutableSettings.settingsBuilder()
+					        .put("cluster.name", "my-es")
+					        .build();
+					client = new TransportClient(settings)
+			        .addTransportAddress(new InetSocketTransportAddress(ip, 9300));
+				}
+			}
 		}
-		
-		Settings settings = ImmutableSettings.settingsBuilder()
-		        .put("cluster.name", "my-es")
-		        .build();
-		client = new TransportClient(settings)
-        .addTransportAddress(new InetSocketTransportAddress(ip, 9300));
 		
 		return client;
 	}

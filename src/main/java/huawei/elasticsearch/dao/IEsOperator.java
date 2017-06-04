@@ -2,6 +2,7 @@ package huawei.elasticsearch.dao;
 
 import java.util.Map;
 
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -38,4 +39,13 @@ public interface IEsOperator
 	 */
 	public UpdateResponse updateIndex(String indexName, String type, String document,
 			Map<String,Object> indexColumns);
+	
+	/**
+	 * 删除
+	 * @param indexName
+	 * @param type
+	 * @param document
+	 * @return
+	 */
+	public DeleteResponse deleteIndex(String indexName, String type, String document);
 }

@@ -6,6 +6,7 @@ import huawei.elasticsearch.tool.EsConnection;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -17,7 +18,7 @@ import com.alibaba.fastjson.JSON;
 public class EsOperatorImpl implements IEsOperator 
 {
 
-	private static final String ip = "192.168.249.38";
+	private static final String ip = "192.168.249.38";			// elasticsearch ip
 	
 	@Override
 	public IndexResponse createIndex(String indexName, String type, String document,
@@ -65,4 +66,16 @@ public class EsOperatorImpl implements IEsOperator
 		}
 		return response;
 	}
+
+	@Override
+	public DeleteResponse deleteIndex(String indexName, String type,
+			String document)
+	{
+		Client client = EsConnection.getEsConnection(ip);
+		DeleteResponse response = client.prepareDelete(indexName, type, document)
+				.setOperationThreaded(false)				// 同一个线程执行
+				.get();
+		return response;
+	}
+	
 }
