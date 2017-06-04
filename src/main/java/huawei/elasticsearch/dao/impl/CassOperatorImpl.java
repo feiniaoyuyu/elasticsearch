@@ -28,6 +28,7 @@ public class CassOperatorImpl implements ICassOperator
 	private static final String[] columns = new String[]{"b","c","d"};
 	private static final String partitionKeyName = "a";
 	
+	@Override
 	public List<Machine> queryMachine() 
 	{	
 		List<Machine> machines = new ArrayList<Machine>();
@@ -53,6 +54,7 @@ public class CassOperatorImpl implements ICassOperator
 		return machines;
 	}
 
+	@Override
 	public List<Multikey> queryMachineForPage(int lastSize,Object partitionKey,Object[] clusterKeys) {
 		Session session = CassSessionFactory.getCassSession();
 		BoundStatement bindStatement = null;

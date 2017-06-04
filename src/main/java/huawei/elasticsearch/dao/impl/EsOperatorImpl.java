@@ -19,6 +19,7 @@ public class EsOperatorImpl implements IEsOperator
 
 	private static final String ip = "192.168.249.38";
 	
+	@Override
 	public IndexResponse createIndex(String indexName, String type, String document,
 			Map<String,Object> keyColumns,Map<String,Object> indexColumns) 
 	{
@@ -34,6 +35,7 @@ public class EsOperatorImpl implements IEsOperator
 
 	}
 	
+	@Override
 	public GetResponse searchIndex(String indexName, String type, String document)
 	{
 		Client client = EsConnection.getEsConnection(ip);
@@ -44,6 +46,7 @@ public class EsOperatorImpl implements IEsOperator
 		return response;
 	}
 	
+	@Override
 	public UpdateResponse updateIndex(String indexName, String type, String document, Map<String,Object> indexColumns)
 	{
 		Client client = EsConnection.getEsConnection(ip);
